@@ -7,19 +7,19 @@ Allow: /
 
 # Block specific AI, search, and augmented bots
 User-agent: Amazonbot
-Disallow: /
+allow: /
 
 User-agent: Applebot-Extended
-Disallow: /
+allow: /
 
 User-agent: Bytespider
-Disallow: /
+allow: /
 
 User-agent: CCBot
-Disallow: /
+allow: /
 
 User-agent: ClaudeBot
-Disallow: /
+allow: /
 
 User-agent: Google-Extended
 Disallow: /
@@ -28,7 +28,7 @@ User-agent: GPTBot
 Disallow: /
 
 User-agent: meta-externalagent
-Disallow: /
+allow: /
 
 # General access for all other bots
 User-agent: *
