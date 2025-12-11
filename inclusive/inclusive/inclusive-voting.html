@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8" />
+    <title>inclusive voting - Multireligionvalsystem </title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            min-height: 100vh;
+            font-family: "Open Sans", sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(circle at 10% 0%, rgba(248, 220, 233, 0.7), transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(210, 235, 255, 0.7), transparent 60%),
+                #faf5f8;
+            color: #333;
+            padding: 40px 14px;
+        }
+        .floral-wrapper {
+            max-width: 1100px;
+            width: 100%;
+            padding: 40px 46px;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 36px;
+            position: relative;
+            overflow: hidden;
+        }
+        .floral-wrapper::before,
+        .floral-wrapper::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0.42;
+            z-index: 0;
+        }
+        .floral-wrapper::before {
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, #f9b2ce, #f47ca4);
+            top: -80px; left: -80px;
+        }
+        .floral-wrapper::after {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, #7dd1b9, #4da88f);
+            bottom: -100px; right: -100px;
+        }
+        .content { position: relative; z-index: 1; }
+        .content h2 {
+            font-size: 0.9rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #a47495;
+            margin-bottom: 10px;
+        }
+        .content h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            color: #3f3144;
+        }
+        .subtitle {
+            font-size: 1rem;
+            color: #7b657f;
+            margin-bottom: 22px;
+            max-width: 34rem;
+        }
+        .content p {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            margin-bottom: 14px;
+            color: #4d3c4d;
+        }
+        .points {
+            margin-top: 10px;
+            margin-bottom: 18px;
+            padding-left: 1.1rem;
+        }
+        .points li {
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+        .actions {
+            margin-top: 22px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #f47ca4, #f9b2ce);
+            color: white;
+            box-shadow: 0 8px 18px rgba(244, 124, 164, 0.3);
+        }
+        .btn-ghost {
+            background: transparent;
+            color: #7b657f;
+            border: 1px solid rgba(164, 116, 149, 0.4);
+        }
+        .flower-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: auto;
+            z-index: 1;
+        }
+        .flower-center {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 90px; height: 90px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffe8a3, #f6b73c);
+            box-shadow: 0 0 0 10px rgba(255, 227, 162, 0.85);
+        }
+        .petal {
+            position: absolute;
+            width: 100px; height: 160px;
+            border-radius: 100px 100px 0 0;
+            background: radial-gradient(circle at 20% 10%, #ffe6f1, #f47ca4);
+            transform-origin: 50% 100%;
+            box-shadow: 0 12px 24px rgba(199, 99, 138, 0.25);
+        }
+        .petal:nth-child(1)  { transform: translate(90px, 30px)  rotate(0deg);   }
+        .petal:nth-child(2)  { transform: translate(65px, -45px) rotate(45deg);  }
+        .petal:nth-child(3)  { transform: translate(-10px, -80px) rotate(90deg); }
+        .petal:nth-child(4)  { transform: translate(-90px, -45px) rotate(135deg);}
+        .petal:nth-child(5)  { transform: translate(-115px, 30px) rotate(180deg);}
+        .petal:nth-child(6)  { transform: translate(-90px, 110px) rotate(225deg);}
+        .petal:nth-child(7)  { transform: translate(-10px, 140px) rotate(270deg);}
+        .petal:nth-child(8)  { transform: translate(65px, 110px) rotate(315deg); }
+        .stem {
+            position: absolute;
+            width: 16px; height: 200px;
+            background: linear-gradient(180deg, #4da88f, #1e6d56);
+            left: 50%; top: 60%;
+            transform: translateX(-50%);
+            border-radius: 999px;
+        }
+        .leaf {
+            position: absolute;
+            width: 90px; height: 44px;
+            background: radial-gradient(circle at 10% 0%, #7dd1b9, #3b8b70);
+            border-radius: 90px 0 90px 0;
+            top: 68%;
+        }
+        .leaf.left { left: 14%; transform: rotate(-22deg); }
+        .leaf.right { right: 14%; transform: scaleX(-1) rotate(-22deg); }
+        @media (max-width: 900px) {
+            .floral-wrapper {
+                grid-template-columns: 1fr;
+                padding: 30px 22px;
+            }
+            .flower-container { order: -1; }
+        }
+        /* CSS for the handshake animation */
+.handshake-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Adjust as needed */
+    position: relative;
+}
+
+/* Style for hands (simple circles or icons) */
+.hand {
+    width: 50px;
+    height: 50px;
+    background-color: #4CAF50; /* Green color, change as needed */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: shake 2s infinite;
+}
+
+/* Position the hands initially */
+#hand1 {
+    left: calc(50% - 60px);
+    animation-delay: 0s;
+}
+#hand2 {
+    left: calc(50% + 10px);
+    animation-delay: 1s;
+}
+
+/* Shake keyframes to simulate handshake movement */
+@keyframes shake {
+    0% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(10px); }
+    50% { transform: translateY(-50%) translateX(0); }
+    75% { transform: translateY(-50%) translateX(-10px); }
+    100% { transform: translateY(-50%) translateX(0); }
+}
+/* Style the wrapper */
+.handshake-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Adjust as needed */
+}
+
+/* Animate hands for handshake effect */
+#left-hand {
+    animation: handshake-left 2s infinite ease-in-out;
+}
+#right-hand {
+    animation: handshake-right 2s infinite ease-in-out;
+}
+
+/* Keyframes for left hand */
+@keyframes handshake-left {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(10px, -5px);
+    }
+    50% {
+        transform: translate(0, -10px);
+    }
+    75% {
+        transform: translate(-10px, -5px);
+    }
+}
+
+/* Keyframes for right hand */
+@keyframes handshake-right {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(-10px, 5px);
+    }
+    50% {
+        transform: translate(0, 10px);
+    }
+    75% {
+        transform: translate(10px, 5px);
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="floral-wrapper">
+        <div class="content">
+            <h2>inclusive voting</h2>
+            <h1>inclusive voting i Multireligionvalsystem</h1>
+            <p class="subtitle">
+                Är det inte konstigt att två Nato länder , Sverige och Norge får dela ut Nobels prise utan att b l a Nobels stiftelse agera ?
+            </p>
+
+            <p>
+                Den ofullbordade separationen mellan stat och kyrka samt mellan religion och politik
+                <strong>Genomförande av den nödvändiga demokratiska reformen (separationen ) är berorende  av  att Norge och Sverige blir neutrala länder i enlighet med Nobels testemente, d v s blir fria från militäralliansen NATO. Det är Nobels stiftelse , norska och svenska väljare som har det till uppgift.
+Det gäller även kyrkovalsreformen .</strong>. Det är fel och konstigt att två Nato länder , Sverige och Norge får dela ut Nobels priser när  dessa  bryter mot hans testamente.!
+    Norge delade ut Nobels fredspris fast det gällde arbete för demokrati, därför fick Venezuelas oppositionsledare priset 2025 trots att hon inte kämpade för separation mellan stat och kyrka och religion och politik.
+            </p>
+
+            <ul class="points">
+                <li>Fredspriset borde återkallas om fredspristagren inte fullföljer sitt fredsarbete d v s fullborda det t .
+.</li>
+                <li>Oslo-avtalet borde också granskas..</li>
+                <li>En möjlig modell för konfliktlösning, t.ex. Israel–Palestina.</li>
+            </ul>
+
+            <p>
+                Detta vänder sig till forskare, beslutsfattare, religiösa
+                ledare och civilsamhälle som vill utforska hur religionsfrihet m f l,
+                demokrati och likabehandling kan förenas i nya institutionella lösningar.
+            </p>
+                 Vapenindustrin (försvarsindustrin Elbit Systems Sweden - ett dotterbolag till det israeliska Elbit Systems  .Elbit Systems producerar drönare som används av IDF i Gaza  ) samt oljeindustrin som också är en ohållbar och miljöförstörande industri och därför måste den avvecklas på samma sätt som tobaksindustrin !
+            <div class="actions">
+                <a href="mailto:denyasvenskarna@gmail.com" class="btn btn-primary">Kontakta oss</a>
+                <a href="#" class="btn btn-ghost">Läs mer (PDF coming soon)</a>
+            </div>
+        </div>
+             <!-- Add this to your website's HTML where you want the handshake animation -->
+<div class="handshake-container">
+    <div class="hand" id="hand1"></div>
+    <div class="hand" id="hand2"></div>
+</div>
+
+        <div class="flower-container" aria-hidden="true">
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div classal="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="flower-center"></div>
+            <div class="stem"></div>
+            <div class="leaf left"></div>
+            <div class="leaf right"></div>
+        </div>
+    </div>
+    <!-- Handshake Modal -->
+<div id="handshake-modal" class="hs-modal-hidden">
+    <div class="hs-modal-content">
+        <h2>Tillämpning av Multireligionval!</h2>
+        <p>Tillämpning av Multireligionvalsystem.</p>
+        <button id="hs-handshake-btn"><a href="https://rfp.multireligionvalsystem.eu.org/The-incomplete-separation-between-church-and-state-and-between-religion-and-politics.html" title="Den ofullbordade separationen mellan stat och kyrka samt mellan religion och politik ">Läs vidare</a></button>
+        <div id="hs-animation" class="hs-animation">
+            <!-- You can replace this with your own animated GIF or SVG -->
+            <img src="https://i.imgur.com/3r8WQ4W.gif" alt="Handshake Animation" />
+        </div>
+    </div>
+</div>
+    <!-- Handshake Modal -->
+<div id="handshake-modal" class="hs-modal-hidden">
+    <div class="hs-modal-content">
+        <h2>Konfliktlösningsmodell!</h2>
+        <p>Den ofullbordade separationen mellan stat och kyrka samt mellan religion och politik
+ .</p>
+        <button id="hs-handshake-btn"><a href="https://a-multi-religion-election-system.multireligionvalsystem.eu.org/Implementera-ett-Multi-Religi%C3%B6st-Valssystem.html" title="Multireligionval">Konfliktlösningsmodell</a></button>
+        <div id="hs-animation" class="hs-animation">
+            <!-- You can replace this with your own animated GIF or SVG -->
+            <img src="https://i.imgur.com/3r8WQ4W.gif" alt="Handshake Animation" />
+        </div>
+        <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('handshake-modal');
+        const button = document.getElementById('hs-handshake-btn');
+        const animationDiv = document.getElementById('hs-animation');
+
+        // Check if handshake already done
+        if (localStorage.getItem('handshakeDone') === 'true') {
+            // Do not show modal
+            modal.style.display = 'none';
+        } else {
+            // Show modal
+            modal.classList.remove('hs-modal-hidden');
+        }
+
+        // When button clicked
+        button.onclick = () => {
+            // Show animation
+            animationDiv.style.display = 'block';
+
+            // Save state
+            localStorage.setItem('handshakeDone', 'true');
+
+            // Optional: disable button
+            button.disabled = true;
+
+            // Hide modal after delay
+            setTimeout(() => {
+                // Animate out modal
+                modal.style.display = 'none';
+            }, 2000);
+        };
+
+        // Optional: click outside modal to close (if you want)
+        // modal.onclick = (e) => { if(e.target === modal){ modal.style.display='none'; } }
+    });
+</script>
+<!-- Handshake SVG with animation -->
+<div class="handshake-wrapper">
+    <svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Left hand -->
+        <g id="left-hand" transform="translate(50,50)">
+            <circle cx="0" cy="0" r="20" fill="#FFC107"/>
+        </g>
+        <!-- Right hand -->
+        <g id="right-hand" transform="translate(150,50)">
+            <circle cx="0" cy="0" r="20" fill="#FFC107"/>
+        </g>
+    </svg>
+</div>
+    </div>
+</div>
+</body>
+</html>
