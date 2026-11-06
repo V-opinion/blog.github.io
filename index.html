@@ -279,6 +279,75 @@ Här de allra viktigaste frågorna ?
 ✅ Oslo-avtalet
  Läs vidare om Multireligionvalsystemet ,Multireligionvalsystem ,FN:s rollspel för fred som kan lösa den 78 år långa konflikten mellan Israel och Palestina..
 <li><a href="https://palestina-israel-konflikten.multireligionvalsystem.eu.org/folkmord/The-International-Criminal-Tribunal-for-Israel-ICTI/">👉 engagera dig nu ! 🤑  </a></li>
- </body>
+ <!-- Multireligionvalsystem AI Chat Widget -->
+<div id="ai-chat-widget-root"></div>
+<script>
+(function() {
+  // Create styles for floating button & iframe container
+  const style = document.createElement('style');
+  style.innerHTML = `
+    #ai-chat-button {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #4f46e5;
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      cursor: pointer;
+      z-index: 999998;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: transform 0.2s ease;
+    }
+    #ai-chat-button:hover { transform: scale(1.05); }
+    #ai-chat-iframe-container {
+      position: fixed;
+      bottom: 96px;
+      right: 24px;
+      width: 400px;
+      height: 600px;
+      max-width: calc(100vw - 32px);
+      max-height: calc(100vh - 120px);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      overflow: hidden;
+      z-index: 999999;
+      display: none;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    #ai-chat-iframe-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Render Widget UI elements
+  const root = document.getElementById('ai-chat-widget-root');
+  root.innerHTML = `
+    <button id="ai-chat-button" aria-label="Open AI Assistant">💬</button>
+    <div id="ai-chat-iframe-container">
+      <iframe src="https://ai-assistant.multireligionvalsystem.eu.org/"></iframe>
+    </div>
+  `;
+
+  // Toggle Chat Visibility
+  const btn = document.getElementById('ai-chat-button');
+  const container = document.getElementById('ai-chat-iframe-container');
+  btn.addEventListener('click', () => {
+    const isOpen = container.style.display === 'block';
+    container.style.display = isOpen ? 'none' : 'block';
+    btn.innerHTML = isOpen ? '💬' : '✕';
+  });
+})();
+</script>
+</body>
  
 </html>
