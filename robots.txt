@@ -22,10 +22,10 @@ User-agent: ClaudeBot
 allow: /
 
 User-agent: Google-Extended
-Disallow: /
+allow: /
 
 User-agent: GPTBot
-Disallow: /
+allow: /
 
 User-agent: meta-externalagent
 allow: /
